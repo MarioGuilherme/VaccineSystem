@@ -1,0 +1,75 @@
+﻿@model VaccineSystem.Models.Address
+
+@{
+    ViewData["Title"] = "Visualizando Endereço";
+}
+
+<h1>
+    Visualizando Endereço
+</h1>
+
+<div>
+    <h4>
+        Endereço
+    </h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.id_address)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.id_address)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.Person.full_name)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.Person.full_name)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.street)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.street)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.complement)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @if(Model.complement == null) {
+                <span>
+                    Nenhum
+                </span>
+            } else {
+                @Html.DisplayFor(model => model.complement)
+            }
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.neighborhood)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.neighborhood)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.city)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.city)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.state)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.state)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.id_address">
+        Editar
+    </a>
+    &nbsp;
+    <a asp-action="Index" class="btn btn-primary">
+        Voltar a lista
+    </a>
+</div>

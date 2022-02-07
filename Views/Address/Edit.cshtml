@@ -1,0 +1,100 @@
+﻿@model VaccineSystem.Models.Address
+
+@{
+    ViewData["Title"] = "Editando Endereço";
+}
+
+<h1>
+    Editando Endereço
+</h1>
+
+<h4>
+    Endereço
+</h4>
+<hr />
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id_address" />
+            <div class="form-group">
+                <label asp-for="id_person" class="control-label"></label>
+                <select asp-for="id_person" class ="form-control" asp-items="ViewBag.id_person">
+                    <option value="0">
+                        SELECIONE UMA PESSOA
+                    </option>
+                </select>
+                <span asp-validation-for="id_person" class="text-danger" style="display: none">
+                    Selecione uma pessoa!
+                </span>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <div class="form-group">
+                        <label asp-for="state" class="control-label"></label>
+                        <input asp-for="state" class="form-control" maxlength="2" />
+                        <span asp-validation-for="state" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-10">
+                    <div class="form-group">
+                        <label asp-for="city" class="control-label"></label>
+                        <input asp-for="city" class="form-control" maxlength="60" />
+                        <span asp-validation-for="city" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="street" class="control-label"></label>
+                <input asp-for="street" class="form-control" maxlength="60" />
+                <span asp-validation-for="street" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label asp-for="complement" class="control-label"></label>
+                        <input asp-for="complement" class="form-control" maxlength="60" />
+                        <span asp-validation-for="complement" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <label asp-for="neighborhood" class="control-label"></label>
+                        <input asp-for="neighborhood" class="form-control" maxlength="60" />
+                        <span asp-validation-for="neighborhood" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-primary">
+        Voltar a lista
+    </a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    $(document).ready(() => {
+        // VALIDA SE O SELECT ESTÁ SELECIONADO UMA PESSOA, CASO CONTRÁRIO, EXIBE A MENSAGEM DE ERRO
+        $("input[value=Salvar]").click((e) => {
+            if($("select").val() == "0"){
+                e.preventDefault();
+                $("select").siblings("span").show();
+            }
+        });
+
+        // AO SELECIONAR ALGUMA OPTION DO SELECT, ELE REMOVE O AVISO DE CAMPO EM BRANCO
+        $("select").on("change", () => {
+            $("select").siblings("span").hide();
+        });
+    });
+</script>

@@ -1,0 +1,59 @@
+﻿@model VaccineSystem.Models.Person
+
+@{
+    ViewData["Title"] = "Visualizando pessoa";
+}
+
+<h1>
+    Visualizando pessoa
+</h1>
+
+<div>
+    <h4>
+        Pessoa
+    </h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.id_person)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.id_person)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.full_name)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.full_name)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.birth_date)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.birth_date)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.sex)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @if(Model.sex == 77) {
+                <span>
+                    Masculino
+                </span>
+            } else {
+                <span>
+                    Feminino
+                </span>
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.id_person">
+        Editar
+    </a>
+    &nbsp;
+    <a asp-action="Index" class="btn btn-primary">
+        Voltar a lista
+    </a>
+</div>

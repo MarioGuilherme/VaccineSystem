@@ -1,0 +1,108 @@
+﻿@model VaccineSystem.Models.Person
+
+@{
+    ViewData["Title"] = "Cadastrar Pessoa";
+}
+
+<h1>
+    Cadastrar Pessoa
+</h1>
+
+<h4>
+    Pessoa
+</h4>
+<hr />
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="full_name" class="control-label"></label>
+                <input asp-for="full_name" class="form-control" maxlength="60"/>
+                <span asp-validation-for="full_name" class="text-danger" style="display:none">
+                    O nome completo é obrigatório!
+                </span>
+            </div>
+            <div class="form-group">
+                <label asp-for="birth_date" class="control-label"></label>
+                <input asp-for="birth_date" class="form-control" />
+                <span asp-validation-for="birth_date" class="text-danger" style="display:none">
+                    A data de nascimento é obrigatório!
+                </span>
+            </div>
+            <div class="form-group">
+                <label asp-for="sex" class="control-label"></label>
+                <select asp-for="sex" class="form-control">
+                    <option value="">
+                        SELECIONE O SEXO
+                    </option>
+                    <option value="M">
+                        Masculino
+                    </option>
+                    <option value="F">
+                        Feminino
+                    </option>
+                </select>
+                <span asp-validation-for="sex" class="text-danger" style="display:none">
+                    O sexo é obrigatório!
+                </span>
+            </div>
+            <div class="form-group">
+                <input type="button" value="Cadastrar" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-primary">
+        Voltar a lista
+    </a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    $(document).ready(() => {
+        // O AVISO DE CAMPO VAZIO DESAPARECE AO ESCREVER NA INPUT E AO SELECIONAR UMA OPTION
+        $("input").keyup(function() {
+            $(this).siblings("span").hide();
+        });
+        $("select").on("change", function() {
+            $(this).siblings("span").hide();
+        });
+
+        $("input[value=Cadastrar]").click(() => {
+
+            // VERIFICA SE OS CAMPOS ESTÃO PREENCHIDOS E RETORNA TRUE SE HOUVER CAMPO VAZIO
+            var hasEmptyFields = VerifyEmptyFields([
+                $("#full_name"),
+                $("#birth_date"),
+                $("#sex")
+            ]);
+
+            // SE NÃO HOUVER CAMPOS VAZIOS, PROSSEGUE COM A OPERAÇÃO
+            if(!hasEmptyFields) {
+
+                // CRIA O OBJETO PARA ENVIAR OS DADOS
+                data = {
+                    full_name: $("#full_name").val(),
+                    birth_date: $("#birth_date").val(),
+                    sex: $("#sex").val()
+                };
+
+                // ENVIA O AJAX E PASSA UMA FUNÇÃO DE CALLBACK
+                Ajax("@Url.Action("CreateAjax")", data, response => {
+
+                    // O RETORNO EM JSON APARECE NO SWEET ALERT
+                    SweetAlert(response.icon, response.msg);
+
+                    // VERIFICA COM IF TERNÁRIO SE RETORNOU SUCESSO, CASO SIM, É LIMPO O FORMULÁRIO
+                    response.icon == "success" ? CleanFields() : "";
+                });
+            }
+        });
+    })
+</script>

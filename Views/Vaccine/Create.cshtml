@@ -1,0 +1,75 @@
+﻿@model VaccineSystem.Models.Vaccine
+
+@{
+    ViewData["Title"] = "Cadastrar Vacina";
+}
+
+<h1>
+    Cadastrar Vacina
+</h1>
+
+<h4>
+    Vacina
+</h4>
+<hr />
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="id_person" class="control-label"></label>
+                <select asp-for="id_person" class ="form-control" asp-items="ViewBag.id_person">
+                    <option value="0">SELECIONE UMA PESSOA</option>
+                </select>
+                <span asp-validation-for="id_person" class="text-danger" style="display: none">
+                    Selecione uma pessoa!
+                </span>
+            </div>
+            <div class="form-group">
+                <label asp-for="vaccine_name" class="control-label"></label>
+                <input asp-for="vaccine_name" class="form-control" maxlength="60" />
+                <span asp-validation-for="vaccine_name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="vaccine_value" class="control-label"></label>
+                <input asp-for="vaccine_value" class="form-control" />
+                <span asp-validation-for="vaccine_value" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="vaccine_date" class="control-label"></label>
+                <input asp-for="vaccine_date" class="form-control" />
+                <span asp-validation-for="vaccine_date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Cadastrar" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-primary">
+        Voltar a lista
+    </a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    $(document).ready(() => {
+        // VALIDA SE O SELECT ESTÁ SELECIONADO UMA PESSOA, CASO CONTRÁRIO, EXIBE A MENSAGEM DE ERRO
+        $("input[value=Cadastrar]").click((e) => {
+            if($("select").val() == "0"){
+                e.preventDefault();
+                $("select").siblings("span").show();
+            }
+        });
+
+        // AO SELECIONAR ALGUMA OPTION DO SELECT, ELE REMOVE O AVISO DE CAMPO EM BRANCO
+        $("select").on("change", () => {
+            $("select").siblings("span").hide();
+        });
+    });
+</script>

@@ -1,0 +1,94 @@
+﻿@model VaccineSystem.Models.Person
+
+@{
+    ViewData["Title"] = "Deletar pessoa";
+}
+
+<h1>
+    Deletar pessoa
+</h1>
+
+<div>
+    <h4>
+        Pessoa
+    </h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.id_person)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.id_person)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.full_name)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.full_name)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.birth_date)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.birth_date)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.sex)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @if (Model.sex == 77) {
+                <span>
+                    Masculino
+                </span>
+            } else {
+                <span>
+                    Feminino
+                </span>
+            }
+        </dd>
+    </dl>
+    <form>
+        <input type="hidden" asp-for="id_person" />
+        <input type="button" value="Deletar" class="btn btn-danger" />
+        &nbsp;
+        <a asp-action="Index" class="btn btn-primary">
+            Voltar a lista
+        </a>
+    </form>
+</div>
+
+<script>
+    $(document).ready(() => {
+            // PERGUNTA AO USUÁRIO SE ELE TEM CERTEZA DE FAZER A EXCLUSÃO
+        $("input[value=Deletar]").click(() => {
+            Swal.fire({
+                icon: "question",
+                html: `<h2>Você tem certeza de que quer deletar esta pessoa?</h2>`,
+                confirmButtonText: "OK",
+                showCancelButton: true,
+                allowOutsideClick: false,
+                confirmButtonText: "Sim",
+                cancelButtonText: "Não",
+            }).then(result => {
+
+                // CASO CONFIRME, PROSSEGUE COM A AÇÃO DE EXCLUSÃO
+                if (result.value) {
+
+                    // ENVIA O AJAX E PASSA UMA FUNÇÃO DE CALLBACK
+                    Ajax("@Url.Action("DeleteAjax")", { id: $("input#id_person").val() }, response => {
+
+                        // O RETORNO APARECE NO SWEET ALERT
+                        SweetAlert(response.icon, response.msg);
+
+                        // SE RETORNAR SUCESSO REDIRECIONA PARA A LISTAGEM DE PESSOAS (INDEX)
+                        if (response.icon == "success") {
+                            setTimeout(() => {
+                                $(location).attr("href", "/Person");
+                            }, 1000);
+                        }
+                    });
+                }
+            });
+        });
+    })
+</script>

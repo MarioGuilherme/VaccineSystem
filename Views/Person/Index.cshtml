@@ -1,0 +1,83 @@
+﻿@model IEnumerable<VaccineSystem.Models.Person>
+
+@{
+    ViewData["Title"] = "Listagem de pessoas";
+}
+
+<h1>
+    Listagem de pessoas
+</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="fas fa-plus"></i>
+        Cadastrar Pessoa
+    </a>
+</p>
+<table class="table text-center">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.full_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.birth_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.sex)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_person)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.full_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.birth_date)
+            </td>
+            <td>
+                @if(item.sex == 77) {
+                    <span>
+                        Masculino
+                    </span>
+                } else {
+                    <span>
+                        Feminino
+                    </span>
+                }
+            </td>
+            <td>
+                <a asp-action="Edit" title="Editar" class="btn btn-warning" asp-route-id="@item.id_person">
+                    <i class="fas fa-pen"></i>
+                </a>
+                <a asp-action="Details" title="Visualizar" class="btn btn-primary" asp-route-id="@item.id_person">
+                    <i class="fas fa-eye"></i>
+                </a>
+                <a asp-action="Delete" title="Deletar" class="btn btn-danger" asp-route-id="@item.id_person">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(() => {
+        // APLICA O DATATABLE COM A LÍNGUA PORTUGUESA
+        $(".table").DataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/pt_br.json"
+            }
+        });
+    });
+</script>

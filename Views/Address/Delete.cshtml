@@ -1,0 +1,104 @@
+﻿@model VaccineSystem.Models.Address
+
+@{
+    ViewData["Title"] = "Deletar Endereço";
+}
+
+<h1>
+    Deletar Endereço
+</h1>
+
+<div>
+    <h4>
+        Endereço
+    </h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.id_address)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.id_address)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.Person.full_name)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.Person.full_name)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.street)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.street)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.complement)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.complement)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.neighborhood)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.neighborhood)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.city)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.city)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.state)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.state)
+        </dd>
+    </dl>
+    <form>
+        <input type="hidden" asp-for="id_address" />
+        <input type="button" value="Deletar" class="btn btn-danger" />
+        &nbsp;
+        <a asp-action="Index" class="btn btn-primary">
+            Voltar a lista
+        </a>
+    </form>
+</div>
+
+<script>
+    $(document).ready(() => {
+        $("input[value=Deletar]").click(() => {
+            // PERGUNTA AO USUÁRIO SE ELE TEM CERTEZA DE FAZER A EXCLUSÃO
+            Swal.fire({
+                icon: "question",
+                html: `<h2>Você tem certeza de que quer deletar este endereço?</h2>`,
+                confirmButtonText: "OK",
+                showCancelButton: true,
+                allowOutsideClick: false,
+                confirmButtonText: "Sim",
+                cancelButtonText: "Não",
+            }).then(result => {
+
+                // CASO CONFIRME, PROSSEGUE COM A AÇÃO DE EXCLUSÃO
+                if (result.value) {
+
+                    // ENVIA O AJAX E PASSA UMA FUNÇÃO DE CALLBACK
+                    Ajax("@Url.Action("DeleteAjax")", { id: $("input#id_address").val() }, response => {
+
+                        // O RETORNO APARECE NO SWEET ALERT
+                        SweetAlert(response.icon, response.msg);
+
+                        // SE RETORNAR SUCESSO REDIRECIONA PARA A LISTAGEM DE ENDEREÇOS (INDEX)
+                        if (response.icon == "success") {
+                            setTimeout(() => {
+                                $(location).attr("href", "/Address");
+                            }, 1000);
+                        }
+                    });
+                }
+            });
+        });
+    })
+</script>

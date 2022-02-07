@@ -1,0 +1,92 @@
+﻿@model VaccineSystem.Models.Vaccine
+
+@{
+    ViewData["Title"] = "Deletar Vacina";
+}
+
+<h1>
+    Deletar Vacina
+</h1>
+
+<div>
+    <h4>
+        Vacina
+    </h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.id_vaccine)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.id_vaccine)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.Person.full_name)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.Person.full_name)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.vaccine_name)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.vaccine_name)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.vaccine_value)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.vaccine_value)
+        </dd>
+        <dt class="col-sm-6 text-right">
+            @Html.DisplayNameFor(model => model.vaccine_date)
+        </dt>
+        <dd class="col-sm-6 text-left">
+            @Html.DisplayFor(model => model.vaccine_date)
+        </dd>
+    </dl>
+
+    <form>
+        <input type="hidden" asp-for="id_vaccine" />
+        <input type="button" value="Deletar" class="btn btn-danger" />
+        &nbsp;
+        <a asp-action="Index" class="btn btn-primary">
+            Voltar a lista
+        </a>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("input[value=Deletar]").click(() => {
+            // PERGUNTA AO USUÁRIO SE ELE TEM CERTEZA DE FAZER A EXCLUSÃO
+            Swal.fire({
+                icon: "question",
+                html: `<h2>Você tem certeza de que quer deletar este vacina?</h2>`,
+                confirmButtonText: "OK",
+                showCancelButton: true,
+                allowOutsideClick: false,
+                confirmButtonText: "Sim",
+                cancelButtonText: "Não",
+            }).then(result => {
+
+                // CASO CONFIRME, PROSSEGUE COM A AÇÃO DE EXCLUSÃO
+                if (result.value) {
+                    // ENVIA O AJAX E PASSA UMA FUNÇÃO DE CALLBACK
+                    Ajax("@Url.Action("DeleteAjax")", { id: $("input#id_vaccine").val() }, response => {
+
+                        // O RETORNO APARECE NO SWEET ALERT
+                        SweetAlert(response.icon, response.msg);
+
+                        // SE RETORNAR SUCESSO REDIRECIONA PARA A LISTAGEM DE VACINAS (INDEX)
+                        if (response.icon == "success") {
+                            setTimeout(() => {
+                                $(location).attr("href", "/Vaccine");
+                            }, 1000);
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
