@@ -29,24 +29,32 @@
                 </span>
             </div>
             <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="control-label">
+                            CEP
+                        </label>
+                        <input id="cep" class="form-control" />
+                    </div>
+                </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label asp-for="state" class="control-label"></label>
-                        <input asp-for="state" class="form-control" maxlength="2" />
+                        <input asp-for="state" class="form-control" maxlength="2" readonly/>
                         <span asp-validation-for="state" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-10">
+                <div class="col-6">
                     <div class="form-group">
                         <label asp-for="city" class="control-label"></label>
-                        <input asp-for="city" class="form-control" maxlength="60" />
+                        <input asp-for="city" class="form-control" maxlength="60" readonly/>
                         <span asp-validation-for="city" class="text-danger"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label asp-for="street" class="control-label"></label>
-                <input asp-for="street" class="form-control" maxlength="60" />
+                <input asp-for="street" class="form-control" maxlength="60" readonly/>
                 <span asp-validation-for="street" class="text-danger"></span>
             </div>
             <div class="row">
@@ -60,7 +68,7 @@
                 <div class="col-8">
                     <div class="form-group">
                         <label asp-for="neighborhood" class="control-label"></label>
-                        <input asp-for="neighborhood" class="form-control" maxlength="60" />
+                        <input asp-for="neighborhood" class="form-control" maxlength="60" readonly/>
                         <span asp-validation-for="neighborhood" class="text-danger"></span>
                     </div>
                 </div>
@@ -96,5 +104,22 @@
         $("select").on("change", () => {
             $("select").siblings("span").hide();
         });
+
+        // FAZ O CONSUMO DE UMA API PÚBLICA DE CEP
+        $("#cep").change(() => {
+            $.ajax({
+                url: `https://ws.apicep.com/cep/${$("#cep").val().replace("-", "")}.json`
+            }).done(response => {
+                if (response.status != 404) {
+                    $("#state").val(response.state);
+                    $("#city").val(response.city);
+                    $("#neighborhood").val(response.district);
+                    $("#street").val(response.address);
+                } else{
+                    SweetAlert("error", "CEP inválido");
+                    $("#state, #city, #neighborhood, #street").val("");
+                }
+            })
+        })
     });
 </script>
