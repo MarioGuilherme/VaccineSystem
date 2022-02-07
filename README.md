@@ -38,7 +38,4 @@ Em seguida abra o arquivo `VaccineSystem.csproj` e adeque as propriedades com o 
 * SweetAlert2
 
 ## Demonstração
-Para melhor visualização do projeto, acesse o video abaixo.
-<a href="https://github.com/MarioGuilherme/VaccineSystem/raw/main/DEMONSTRACAO.mp4">
-   Vídeo
-</a>
+https://user-images.githubusercontent.com/60993476/152759140-cc705566-12d7-4427-8d5f-bae93646bcaf.mp4
